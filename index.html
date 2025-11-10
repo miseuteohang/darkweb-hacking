@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>보안 경고</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #00ff00;
+    font-family: 'Share Tech Mono', monospace;
+    overflow: hidden;
+}
+
+.terminal {
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    white-space: pre-line;
+    line-height: 1.2em;
+    font-size: 14px;
+}
+
+.warning {
+    color: #ff0000;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.fullscreen-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    color: #ff0000;
+    font-size: 3em;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 9999;
+    display: none;
+    overflow: hidden;
+}
+
+button {
+    padding: 20px 40px;
+    font-size: 1.5em;
+    margin-top: 30px;
+    cursor: pointer;
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    font-family: 'Share Tech Mono', monospace;
+}
+</style>
+</head>
+<body>
+<div class="terminal" id="terminal">
+    <div class="warning">⚠️ 경고: 시스템 무단 접근 탐지됨</div>
+</div>
+
+<div style="position: fixed; bottom: 50px; width: 100%; text-align: center;">
+    <button id="triggerBtn">위험 확인</button>
+</div>
+
+<script>
+const terminal = document.getElementById('terminal');
+const triggerBtn = document.getElementById('triggerBtn');
+
+const messages = [
+    "보안 모듈 활성화 중...",
+    "네트워크 패킷 스니핑 모듈 로딩...",
+    "RAT(Remote Access Trojan) 모니터링 시작",
+    "외부 IP 추적 모듈 활성화...",
+    "당신의 아이피는 추적됩니다: 192.168.1.100",
+    "카메라 접근 권한 확인 중...",
+    "마이크 및 통화 모니터링 활성화",
+    "키로깅(Keylogging) 모듈 설치 완료",
+    "백도어(Backdoor) 감지 모듈 실행",
+    "암호화 알고리즘 로딩 중(AES256, RSA2048)",
+    "파일 시스템 감시 및 권한 상승 시도 탐지",
+    "C2(Command & Control) 서버 연결 확인",
+    "패킷 스니핑 및 세션 하이재킹 탐지 완료",
+    "다크웹 크리덴셜 스캐닝 모듈 실행",
+    "위협 인텔리전스 로그 수집 완료",
+    "당신의 통화, 녹음, 카메라 접근 모두 감지",
+    "해킹 코드 심어졌습니다: 모든 권한 제어 가능",
+    "⚠️ 모든 개인 정보가 유출되었습니다",
+    "연락처, 메시지, 사진, 문서, 암호 등 모두 탈취됨",
+    "⚠️ 디지털 활동 감시는 이 웹사이트에 접속하는 순간 전부 감시되고 있습니다",
+    "실시간 트래픽 모니터링 활성화",
+    "루트킷(Rootkit) 의심 모듈 실행",
+    "VPN 우회 탐지 및 차단 시도 완료",
+    "다크웹 포럼 데이터 스니핑 모듈 활성화",
+    "위성 위치 추적 모듈 활성화...",
+    "악성 행위 추적 모듈 업데이트 완료",
+    "⚠️ 모든 보안 모듈 작동 완료",
+    "심화 분석: 포렌식 데이터 수집 중...",
+    "권한 escalations 탐지 및 차단 모듈 작동",
+    "네트워크 침입 탐지 시스템(NIDS) 로그 기록 완료",
+    "스피어 피싱 감지 모듈 활성화",
+    "IoT 장치 연결 모니터링 시작...",
+    "⚠️ 다크웹 & C2 서버 통신 감시 활성화",
+    "⚠️ 모든 시스템 이벤트 기록 중, 창을 닫지 마시오!"
+];
+
+let i = 0;
+let j = 0;
+
+function typeMessage() {
+    if(i >= messages.length) return;
+
+    let msg = messages[i];
+    if(j < msg.length) {
+        let char = msg.charAt(j);
+        if(msg.startsWith("⚠️") || msg.includes("감시") || msg.includes("유출")) {
+            terminal.innerHTML += `<span style="color:#ff0000;">${char}</span>`;
+        } else {
+            terminal.innerHTML += char;
+        }
+        j++;
+        setTimeout(typeMessage, 30);
+    } else {
+        terminal.innerHTML += '\n';
+        i++;
+        j = 0;
+        setTimeout(typeMessage, 100);
+        terminal.scrollTop = terminal.scrollHeight;
+    }
+}
+
+triggerBtn.addEventListener('click', () => {
+    terminal.innerHTML = ""; // 초기화 후 시작
+    typeMessage();
+});
+</script>
+</body>
+</html>
